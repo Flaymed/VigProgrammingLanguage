@@ -8,11 +8,10 @@ import java.util.Scanner;
 
 public class Variables {
 
-    public static Map<String, String> varString = new HashMap<>();
-    public static Map<String, Integer> varInt = new HashMap<>();
-    public static Map<String, Boolean> varBool = new HashMap<>();
+    public static Map<String, String> varData = new HashMap<>();
+    public static Map<String, Integer> varPos = new HashMap<>();
 
-    public static void identifyVariables(File fileName) {
+    public static Map identifyVariables(File fileName) {
         try {
             Scanner fileReader = new Scanner(fileName);
             while (fileReader.hasNextLine()) {
@@ -20,19 +19,34 @@ public class Variables {
                 if (data.contains("var")) {
                     //Get position of the '=' (accounts for no space between variable name and '=' sign)
                     int equals = data.indexOf("=");
-                    String variable = "";
+                    String variableName = "";
+                    String variableData = "";
                     //use negative one to account for the first letter in the variable name
                     for (int i = -1; i < equals - 5; i++) {
 
-                        variable = variable + data.charAt(5 + i);
+                        variableName = variableName + data.charAt(5 + i);
                     }
-                    System.out.println(variable);
+
+                    for (int i = equals + 1; i < data.length(); i++) {
+
+                        if (i + 1 == data.length()) {
+                            break;
+                        }
+
+                        variableData = variableData + data.charAt(i);
+                    }
+
+                    varData.put(variableName, variableData);
+
                 }
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             e.printStackTrace();
         }
+
+        return varData;
+
     }
 
 }

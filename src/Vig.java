@@ -1,13 +1,27 @@
+import compiler.KeywordParse;
 import compiler.Variables;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Vig {
 
 	public static void main(String[] args) {
 
 		File compileFile = new File(args[0]);
-		Variables.identifyVariables(compileFile);
+		Map varData = Variables.identifyVariables(compileFile);
+		Map kwData = KeywordParse.getKeyWords(compileFile);
+		ArrayList<String> functionNames = KeywordParse.getFunctions();
+
+		if (varData != null && kwData != null && functionNames != null) {
+			System.out.println(varData);
+			System.out.println(kwData);
+			System.out.println(functionNames);
+		} else {
+			System.out.println("Something went wrong");
+		}
+
 
 	}
 
